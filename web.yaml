@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: install httpd
+            yum:
+                    name: httpd
+                    state: installed
+- name: host website
+  hosts: all
+  tasks:
+          - name: copy content
+            copy:
+                    content: "hello"
+                    dest: /var/www/html/index.html
+          - name: firewall
+            service:
+                    name: firewalld
+                    enabled: true
+                    state: started
+                    #- name: firewalld enabled
+            #firewalld:
+            #       service: http
+            #       permanent: true
+            #       state: enabled
+            #       immediate: yes
+          - name: start and enable apache
+            service:
+                    name: httpd
+                    enabled: true
+                    state: started
+          - name: host
+            uri:
+                    url: http://192.168.14.130
+                    return_content: yes
+                    status_code: 200 
+

@@ -1,0 +1,36 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: create multiple files
+            file:
+                    name: /home/netleap/Desktop/"{{item}}"
+                    state: touch
+            loop:
+                    - file11
+                    - file22
+                    - file33
+          - name: create multiple user 
+            user:
+                    name: "{{item.name}}"
+                    state: present
+                    group: "{{item.groups}}"
+            loop:
+                    - {'name': 'joy','groups': 'wheel'}
+          - name: install autofs
+            yum:
+                     name: httpd
+                     state: absent
+            notify: start service of autofs
+  handlers:
+          - name: start service of autofs
+            service:
+                   name: httpd
+                   state: started
+                        
+   
+                      
+                    
+                     
+

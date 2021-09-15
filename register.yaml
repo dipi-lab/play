@@ -1,0 +1,17 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: register variable
+            shell: "echo {{item}}"
+            loop:
+                    - one
+                      two
+            register: echo
+          - name: helloooo
+            file:
+                    path: /etc/hello
+                    state: touch
+            register: path
+

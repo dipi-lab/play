@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: install apache server
+            when: ansible_local.custom.software.package
+            yum:
+                    name: httpd
+                    state: absent
+            when: ansible_local.custom.software.pkg == "http"

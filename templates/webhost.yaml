@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: install httpd
+            yum:
+                    name: httpd
+                    state: installed
+          - name: start and enabled apache service 
+            service:
+                    name: httpd
+                    state: started
+                    enabled: yes
+          - name: edit file
+            template:
+                    src: /home/netleap/yamls/templates/index1.j2
+                    dest: /var/www/html/index.html
+          - name: configure httpd 
+            template:
+                    src: /home/netleap/yamls/templates/web.j2
+                    dest: /etc/httpd/conf.d/sample.conf
+          - name: restart httpd
+            service:
+                    name: httpd
+                    state: restarted
+          - name: check web
+            uri:
+                    url: http://localhost
+

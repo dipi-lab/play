@@ -1,0 +1,51 @@
+---
+- hosts: netleap
+  become: true
+  user: netleap
+  vars:
+          mail_services:
+                  - postfix
+  tasks:
+          - name: postfix is running 
+            service:
+                    name: httpd
+                    state: started
+# simple loop
+          - name: httpd is running
+            service:
+                    name: "{{ item }}"
+                    state: started
+            loop:
+                  - httpd
+# using variable
+          - name: install packages
+            yum:
+                    name: "{{ item }}"
+                    state: present
+            loop: "{{ mail_services }}"
+# loops over a list of hashes or dictionaris
+          - name: create user and group
+            user:
+                    name: "{{ item.name }}"
+                    state: present
+                    groups: "{{ item.groups }}"
+            loop:
+                    - name: joe
+                      groups: wheel
+                    - name: jue
+                      groups: wheel
+# using register variables with loops
+          - name: loop register test
+            command: "echo this is my item:{{ item }}"
+            loop:
+                   - one
+                   - two
+            register: echo_results
+
+
+
+                          
+                           
+
+
+

@@ -1,0 +1,19 @@
+---
+- hosts: all
+  user: netleap
+  become: yes
+  tasks:
+          - name: prints all facts
+            debug:
+                    msg: > 
+                            the defaultipv4 address is {{ ansible_facts.default_ipv4.address}}
+                            the domain name is {{ ansible_facts.fqdn}}
+                            ansible virtualization user is {{ansible_virtualization_role}}
+                            dns is {{ansible_dns.nameservers}} and {{ansible_dns.search}}
+                            ens33 is {{ansible_ens33.features.esp_hw_offload}}
+
+          - name: install samba
+            yum:
+                    name: "{{ansible_local.cust.localhost.pkgname}}"
+                    state: present
+

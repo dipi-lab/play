@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: true
+  user: netleap
+  tasks:
+          - name: appache server is "{{pkg}}"
+            yum:
+                    name: "{{pkg}}"
+                    state: present
+          - name: add port in firewall {{port}}
+            firewalld:
+                    port: "{{port}}/tcp"
+                    permanent: yes
+                    state: enabled
+                    

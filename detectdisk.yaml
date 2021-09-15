@@ -1,0 +1,10 @@
+---
+- name: detect disk and set as variable
+  hosts: all
+  become: yes
+  user: netleap
+  vars:
+          disk: "{{ ansible_facts['devices']['sde'] }}"
+  tasks: 
+  - debug: 
+      msg: diskname is set to {{ disk }} 

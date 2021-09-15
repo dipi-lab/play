@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  vars:
+          pkg:
+                  - httpd
+                  - crond
+  tasks:
+          - name: create user
+            service:
+                    name: "{{ item }}"
+                    state: started
+                    with_items: "{{ pkg }}"
+

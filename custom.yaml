@@ -1,0 +1,14 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: create folder
+            file:
+                    path: /etc/ansible/facts.d
+                    recurse: yes
+                    state: directory
+          - name: copy netleap.fact
+            copy:
+                    src: /etc/ansible/facts.d/netleap.fact
+                    dest: /etc/ansible/facts.d/

@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: install services
+            yum:
+                    name: "{{item}}"
+                    state: present
+            loop:
+                    - mariadb
+                    - nfs-utils
+                    - httpd
+                    - python2
+                    - php 

@@ -1,0 +1,52 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: create extended patition
+            parted:
+                    device: /dev/sdc
+                    number: 1
+                    part_type: extended
+                    part_start: 0%
+                    part_end: 100%
+                    state: present
+          - name: create logical volume
+            parted:
+                    device: /dev/sdc
+                    number: 5
+                    part_type: logical
+                    part_start: 2MiB
+                    part_end: 1027MiB
+                    flags: [lvm]
+                    state: present
+          - name: create logical volume
+            parted:
+                    device: /dev/sdc
+                    number: 6
+                    part_type: logical
+                    part_start: 1028MiB
+                    part_end: 3084MiB
+                    flags: [lvm]
+                    state: present
+          - name: create volume group
+            lvg:
+                    vg: vg0
+                    pvs: /dev/sdc5,/dev/sdc6
+          - name: create lv
+            lvol:
+                    vg: vg0
+                    lv: lv0
+                    size: 2G
+          - name: format lv0 by xfs
+            filesystem:
+                    dev: /dev/vg0/lv0
+                    fstype: xfs
+          - name: mount on /mydata
+            mount:
+                    name: /mydata
+                    src: /dev/vg0/lv0
+                    fstype: xfs
+                    opts: defaults
+                    state: mounted
+

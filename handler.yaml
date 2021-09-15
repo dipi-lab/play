@@ -1,0 +1,17 @@
+---
+- hosts: 192.168.14.130
+  user: netleap
+  become: yes
+  tasks:
+          - name: using hander
+            yum:
+                    name: httpd
+                    state: present
+            notify: start httpd
+  handlers:
+                    - name: start httpd
+                      service:
+                              name: httpd
+                              state: started
+
+

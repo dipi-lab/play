@@ -1,0 +1,10 @@
+---
+- name: serverinformation
+  hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: info is
+            template:
+                    src: fact.j2
+                    dest: /tmp/server-info.txt

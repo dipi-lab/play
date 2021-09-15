@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  user: netleap
+  vars:
+          remote_dir: /etc/ansible/facts.d
+          facts_file: date_time.fact
+  tasks:
+          - name: get custom fact
+            debug:
+                    msg: "{{ ansible_local.date_time }}"

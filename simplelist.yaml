@@ -1,0 +1,13 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: create multiple files
+            file:
+                    path: /home/netleap/Desktop{{item}}
+                    state: touch
+            loop:
+                    - file1
+                    - file2
+                    - file3

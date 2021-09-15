@@ -1,0 +1,56 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: create extended partition
+            parted:
+                    device: /dev/sdb
+                    number: 1
+                    part_type: extended
+                    part_start: 0%
+                    part_end: 100%
+                    label: msdos
+                    state: present
+          - name: create logical partition
+            parted:
+                    device: /dev/sdb
+                    number: 5
+                    part_type: logical
+                    part_start: 2MiB
+                    part_end: 1027MiB
+                    label: msdos
+                    flags: [lvm]
+                    state: present
+          - name: create logical partition
+            parted:
+                    device: /dev/sdb
+                    number: 6
+                    part_type: logical
+                    part_start: 1028MiB
+                    part_end: 3074MiB
+                    label: msdos
+                    flags: [lvm]
+                    state: present
+          - name: create volume group 
+            lvg:
+                    vg: vggroup
+                    pvs: /dev/sdb5,/dev/sdb6
+          - name: create logical volume
+            lvol:
+                    vg: vggroup
+                    lv: lvol
+                    size: 2G
+          - name: format lvol
+            filesystem:
+                    fstype: xfs
+                    dev: /dev/vggroup/lvol
+          - name: mount on /mnt
+            mount:
+                    name: /lvm
+                    src: /dev/vggroup/lvol
+                    fstype: xfs
+                    opts: exec
+                    state: mounted
+
+                    

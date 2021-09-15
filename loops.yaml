@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: postfix running
+            service:
+                    name: "{{item}}"
+                    state: started
+            loop:
+                    - postfix
+                    - dovecot
+

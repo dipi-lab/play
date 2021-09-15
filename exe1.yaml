@@ -1,0 +1,24 @@
+---
+- hosts: 192.168.14.130
+  user: netleap
+  become: yes
+  vars:
+          run_my_task: false
+  tasks:
+          - name: installed httpd
+            yum:
+                    name: httpd
+            when: run_my_task
+          - name: get postfix server status
+            command: /usr/bin/systemctl is-active postfix
+            ignore_errors: yes
+            register: result
+          - name: restart appache 
+            service:
+                    name: httpd
+                    state: restarted
+          - name: install apache on redhat
+            yum:
+                    name: httpd
+                    state: installed
+            when: ansible_os_family=="debian" or ansible_pkg_mgr=="dnf"

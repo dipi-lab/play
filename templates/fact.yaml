@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: show machine1 info
+            template:
+                    src: /home/netleap/yamls/templates/fact.j2
+                    dest: /home/netleap/info

@@ -1,0 +1,15 @@
+---
+- hosts: 192.168.14.130
+  become: yes
+  user: netleap
+  tasks:
+          - name: add multiple user
+            user:
+                    name: "{{item.name}}"
+                    state: present
+                    group: "{{item.groups}}"
+            loop:
+                    - {name: 'ansuser1',groups: 'wheel'}
+                    - {name: 'ansuser2',groups: 'wheel'}
+
+

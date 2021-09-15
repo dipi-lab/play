@@ -1,0 +1,13 @@
+---
+- hosts: servers
+  become: yes
+  user: netleap
+  tasks: 
+    
+          - name: print netleaps variable
+            debug:
+                    msg: >
+                        size of sd1 is
+                    {{ansible_devices.sda.partitions.sda1.size}}
+              
+                            

@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  remote_user: netleap
+  tasks:
+          - name: install httpd on centos
+            yum:
+                    name: mariadb
+                    state: present
+            when: ansible_os_family == "RedHat" and ansible_system == "Linux"
+            
+- name: httpd install on redhat
+  hosts: all
+  user: netleap
+  become: yes
+  tasks:
+          - name: install httpd on redhat
+            yum:
+                    name: httpd
+                    state: present
+            when: ansible_os_family == "RedHat"
+            

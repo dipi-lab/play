@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  become_method: sudo
+  user: netleap
+  tasks:
+          - name: create user
+            user:
+                    name: "{{user}}"
+                    uid: 4545
+                    comment: "hello i am "
+                    shell: /bin/bash
+                    state: present
+

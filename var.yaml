@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: print port and user of ansible
+            debug:
+                    msg: >
+                            port number of ansible {{port}}
+                            and ansible user is {{ansible_user}}
+                            a is {{a}}

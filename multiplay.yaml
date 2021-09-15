@@ -1,0 +1,31 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: install apache srever
+            yum:
+                    name:
+                            - httpd
+                            - nfs*
+                            - cronie*
+                    state: installed
+          - name: service start and enabled
+            service:
+                    name: http
+                    enabled: yes
+                    state: started
+- name: enable firewall and add http
+  hosts: netleap
+  user: netleap
+  tasks:
+          - name: enable firewall
+            service:
+                    name: firewalld
+                    enabled: yes
+          - name: add http in firewalld
+            firewalld:
+                    service: http
+                    permanent: yes
+                    immediate: true
+                    state: enabled

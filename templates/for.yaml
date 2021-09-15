@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+  user: netleap
+  tasks:
+          - name: print 1 to 11 number
+            template:
+                    src: forloop.j2
+                    dest: /home/netleap/for
