@@ -1,6 +1,7 @@
 ---
 - hosts: all
   become: true
+  become_method: sudo
   user: root
   vars:
           remote_dir: /etc/ansible/facts.d
